@@ -41,7 +41,7 @@ Refinery::Pages.configure do |config|
 
   config.layout_template_whitelist = ["application", "lawrence"]
 
-  config.view_template_whitelist = ["home", "show"]
+  config.view_template_whitelist = ["schedule", "standings", "home", "show"]
 
   config.use_layout_templates = true
 

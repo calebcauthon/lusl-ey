@@ -3367,7 +3367,8 @@ a.thumbnail:hover {
 
 .standings { }
 .standings .table td.rank { font-size: 1.8em; text-align: center; }
-		
+.standings .table { width: 50%; }
+
 .emails #red { color: red; }
 .emails #white { color: black; }
 .emails #green { color: green; }

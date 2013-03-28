@@ -1,0 +1,33 @@
+<%=raw@page.content_for(:body) %>
+
+
+<script type="text/javascript" src="https://cdn.firebase.com/v0/firebase.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+
+    var teams = new Firebase('https://lusl-dev.firebaseIO.com/summer_league_2013/teams/red');
+    teams.set({ wins: 3 });    
+    
+    var teams = new Firebase('https://lusl-dev.firebaseIO.com/summer_league_2013/teams/yellow');
+    teams.set({ wins: 3 });    
+    
+    var teams = new Firebase('https://lusl-dev.firebaseIO.com/summer_league_2013/teams/green');
+    teams.set({ wins: 3 });    
+    
+    var teams = new Firebase('https://lusl-dev.firebaseIO.com/summer_league_2013/teams/blue');
+    teams.set({ wins: 3 });    
+    
+    var teams = new Firebase('https://lusl-dev.firebaseIO.com/summer_league_2013/teams/black');
+    teams.set({ wins: 3 });    
+    
+    var teams = new Firebase('https://lusl-dev.firebaseIO.com/summer_league_2013/teams/purple');
+    teams.set({ wins: 3 });    
+    
+    var teams = new Firebase('https://lusl-dev.firebaseIO.com/summer_league_2013/teams/pink');
+    teams.set({ wins: 3 });    
+    
+    var teams = new Firebase('https://lusl-dev.firebaseIO.com/summer_league_2013/teams/orange');
+    teams.set({ wins: 3 });    
+
+  });
+</script>

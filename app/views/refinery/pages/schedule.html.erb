@@ -1,0 +1,113 @@
+<button id="normal">show scores</button>
+<%=raw@page.content_for(:body) %>
+<button id="admin">edit scores</button>
+
+<script type="text/javascript" src="https://cdn.firebase.com/v0/firebase.js"></script>
+
+
+<script type="text/javascript">
+  $.fn.extend({
+    get_week_number: function() {
+      var week_cell = $(this).find('td').eq(0);
+      var week_parts = week_cell.text().split(' ');
+      var week_number = parseInt(week_parts[1], 10);
+      return week_number;
+    },
+    get_field_number: function() {
+      var field_cell = $(this).find('td').eq(1)
+      var field_parts = field_cell.text().split(' ');
+      var field_number = parseInt(field_parts[1], 10);
+      return field_number;
+    }
+  });
+  $(document).ready(function() {
+    $('#normal').click(function() {
+      $.fn.extend({
+        show_scores: function() {
+          var score_cell = $(this).find('td').eq(4)
+          
+          var week_number = $(this).get_week_number();
+          var field_number = $(this).get_field_number();
+          
+          var scores = $(score_cell).text().split('-');
+          var game = new Firebase('https://lusl-dev.firebaseIO.com/summer_league_2013/scores/week_' + week_number + '/field_' + field_number);
+          game.on('value', function(snapshot) {
+            var home_score = snapshot.val().home_score;
+            var away_score = snapshot.val().away_score;
+            
+            score_cell.html('<span></span> - <span></span>');
+            score_cell.find('span').eq(0).text(home_score);
+            score_cell.find('span').eq(1).text(away_score);
+          });
+          
+          
+        }
+      });
+      $('table tbody tr').each(function() {
+        week_cell = $(this).find('td').eq(0);
+        field_cell = $(this).find('td').eq(1);
+        home_cell = $(this).find('td').eq(2);
+        away_cell = $(this).find('td').eq(3);
+        score_cell = $(this).find('td').eq(4);
+        
+        $(this).show_scores(); 
+      });
+    });
+    
+    $('#admin').click(function() {
+      $.fn.extend({
+        create_score_inputs: function() {
+          score_cell = $(this).find('td').eq(4);
+          var scores = $(score_cell).text().split('-');
+          var home_score = parseInt(scores[0], 10);
+          var away_score = parseInt(scores[0], 10);
+          
+          score_cell.html('<input /> - <input />');
+          score_cell.find('input').eq(0).val(home_score);
+          score_cell.find('input').eq(1).val(away_score);
+        },      
+        bind_scores_to_firebase: function() {
+          week_cell = $(this).find('td').eq(0);
+          score_cell = $(this).find('td').eq(4);
+          home_cell = $(this).find('td').eq(2);
+          away_cell = $(this).find('td').eq(3);
+          field_cell = $(this).find('td').eq(1);
+          
+          var home_team = $(home_cell).text();
+          var away_team = $(away_cell).text();
+          
+          var field_parts = field_cell.text().split(' ');
+          var field_number = parseInt(field_parts[1], 10);
+          
+          var week_parts = week_cell.text().split(' ');
+          var week_number = parseInt(week_parts[1], 10);
+          
+          $(score_cell).find('input').eq(0).bind('change', function() {
+            var home_score = $(this).val();
+            var firebase_home_score = new Firebase('https://lusl-dev.firebaseIO.com/summer_league_2013/scores/week_' + week_number + '/field_' + field_number);
+            firebase_home_score.update({ home_score: home_score, home_team: home_team });
+          });
+          
+          $(score_cell).find('input').eq(1).bind('change', function() {
+            var away_score = $(this).val();
+            var firebase_away_score = new Firebase('https://lusl-dev.firebaseIO.com/summer_league_2013/scores/week_' + week_number + '/field_' + field_number);
+            firebase_away_score.update({ away_score: away_score, away_team: away_team });
+          });
+        }
+      });
+      
+      
+      $('table tbody tr').each(function() {
+        week_cell = $(this).find('td').eq(0);
+        field_cell = $(this).find('td').eq(1);
+        home_cell = $(this).find('td').eq(2);
+        away_cell = $(this).find('td').eq(3);
+        score_cell = $(this).find('td').eq(4);
+        
+        $(this).create_score_inputs();      
+        $(this).bind_scores_to_firebase();
+      });
+      
+    });    
+  });
+</script>

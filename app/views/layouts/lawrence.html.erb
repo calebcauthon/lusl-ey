@@ -6,10 +6,10 @@
 		<meta content="width=device-width, initial-scale=1.0" name="viewport" />
 		<meta content="" name="description" />
 		<meta content="" name="author" />
-
+    
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		
-		<link href="/bootstrap/css/bootstrap.css" type="text/css" rel="stylesheet" />
 		<link href="/css/style.css" type="text/css" rel="stylesheet" />
 		<style>
 			body {
@@ -74,7 +74,7 @@
 			</div>
 		</div>
 		<div class="container">
-			<%= render '/refinery/content_page' %>
+			<%= yield %>
 		</div>
   <body>
 </html>
